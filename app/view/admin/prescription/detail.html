@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo</title>
+    <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+    <link href="//unpkg.com/layui@2.8.16/dist/css/layui.css" rel="stylesheet">
+</head>
+<body style="padding: 10px">
+<table  class="layui-table layui-bg-black">
+    <thead>
+    <tr>
+        <th>名称</th>
+        <td class="layui-font-green">{$herbs_info.common_name  ?? '' }</td>
+        <th>性状</th>
+        <td class="layui-font-green">{$herbs_info.character_name ?? '' }</td>
+        <th>味</th>
+        <td class="layui-font-green">{$herbs_info.medicinal_smell_name  ?? '' }</td>
+        <th>毒性</th>
+        <td class="layui-font-green">{$herbs_info.toxicity_name ?? '' }</td>
+    </tr>
+    <tr>
+        <th colspan="2">来源书籍</th>
+        <td colspan="6">《{$herbs_info.book_name}》</td>
+    </tr>
+    <tr>
+        <th>拉丁文</th>
+        <td colspan="7">{$herbs_info.scientific_name  ?? '' }</td>
+    </tr>
+
+    <tr>
+        <th>别名</th>
+        <td colspan="7">《{$herbs_info.other_names}》</td>
+    </tr>
+    <tr>
+        <th>功效</th>
+        <td colspan="7">{$herbs_info.efficacy}</td>
+    </tr>
+
+    </thead>
+    <tbody>
+</table>
+
+
+{if count($herbs_info['other']) > 0 }
+其他书籍药材的介绍：<br>
+{/if}
+{volist name="herbs_info.other" id="vo"}
+<div style="font-size: 12px;font-weight: bold;margin-top:15px">来源书籍:《{$vo.book_name}》</div>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>名称</th>
+        <td>{$vo.common_name  ?? '' }</td>
+        <th>性状</th>
+        <td>{$vo.character_name ?? '' }</td>
+        <th>味</th>
+        <td>{$vo.medicinal_smell_name  ?? '' }</td>
+        <th>毒性</th>
+        <td>{$vo.toxicity_name ?? '' }</td>
+    </tr>
+    <tr>
+        <th>拉丁文</th>
+        <td colspan="7">{$vo.scientific_name  ?? '' }</td>
+    </tr>
+
+
+    <tr>
+        <th>别名</th>
+        <td colspan="7">《{$vo.other_names}》</td>
+    </tr>
+    <tr>
+        <th>功效</th>
+        <td colspan="7">{$vo.efficacy}</td>
+    </tr>
+
+    </thead>
+    <tbody>
+</table>
+
+
+{/volist}
+</body>
+</html>
