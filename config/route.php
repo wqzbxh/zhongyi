@@ -21,6 +21,7 @@ Route::disableDefaultRoute();
 //Route::any('/', [app\controller\admin\HomeController::class, 'index']);
 Route::group('/api', function () {
     Route::get('/get_prescription_list', [app\controller\admin\PrescriptionController::class, 'getPrescriptionList']);
+    Route::get('/get_book_list', [app\controller\admin\BooksController::class, 'getBooklist']);
 
 //    获取药材
     Route::get('/get_herbs_list', [app\controller\admin\HerbsController::class, 'getHerbsList']);
