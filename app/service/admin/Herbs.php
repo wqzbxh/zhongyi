@@ -73,7 +73,8 @@ class Herbs
 
                 $medicinal_smell_arr = [];
                 foreach ($result_medicinal_smell as $medicinal_smell_item){
-                    $row_medicinal_smell = explode(',',$item->medicinal_smell_id);
+
+                    $row_medicinal_smell = explode(',',(string)$item->medicinal_smell_id);
                     foreach ($row_medicinal_smell as $row_medicinal_smell_item){
                         if($medicinal_smell_item->medicinal_smell_id == $row_medicinal_smell_item){
                             array_push($medicinal_smell_arr,$medicinal_smell_item->medicinal_smell_name);
@@ -85,7 +86,7 @@ class Herbs
 
                 $medicine_character_arr  = [];
                 foreach ($result_medicine_character as $medicine_character_item){
-                    $row_medicine_character = explode(',',$item->character_id);
+                    $row_medicine_character = explode(',',$item->character_id??'');
                     foreach ($row_medicine_character as $row_medicine_character_item){
                         if($medicine_character_item->character_id == $row_medicine_character_item){
                             array_push($medicine_character_arr,$medicine_character_item->character_name);
@@ -211,7 +212,7 @@ class Herbs
             $conditons['value'] = $character_id;
             $result_medicine_character = $MedicineCharacteService->getCollectionBasedOnConditions([$conditons]);
             $character_name = collect($result_medicine_character)->pluck('character_name')->toArray();
-            $returnArray['character_name'] = implode(',',$character_name);
+            $returnArray['medicine_character_name'] = implode(',',$character_name);
         }
 
         return $returnArray;

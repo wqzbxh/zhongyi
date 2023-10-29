@@ -39,9 +39,8 @@ class HerbsController extends Herbs
 
         $page = $request->get('current', '');
         $limit = $request->get('pageSize', '');
-
         // 从请求中获取草药书籍名称，如果未提供则为 null
-        $query = $request->get('query', '');
+        $query = $request->get();
         // 调用 getList 方法获取草药列表数据
         $result = $this->getList($page, $limit, '',$query);
 
@@ -60,7 +59,7 @@ class HerbsController extends Herbs
 
         if($id){
             $row = $this->getHerbsDetail($id);
-            $returnArray = Message::Msg(0, null, null, $row);
+            $returnArray = Message::Msg(0, $row, null, []);
             return json($returnArray);
         }
     }
