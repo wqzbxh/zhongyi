@@ -6,7 +6,7 @@
  * Time:  10:03
  */
 
-namespace app\controller\admin;
+namespace app\controller\api;
 
 use app\service\admin\Books;
 use support\Db;

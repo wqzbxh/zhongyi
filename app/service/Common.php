@@ -78,7 +78,7 @@ class Common
         // 构建返回的关联数组
         $returnArray = [
             'data' => $result,
-            'count' => $total,
+            'total' => $total,
         ];
 
         return $returnArray;

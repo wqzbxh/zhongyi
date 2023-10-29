@@ -6,7 +6,7 @@
  * Time:  2:03
  */
 
-namespace app\controller\admin;
+namespace app\controller\api;
 
 use app\Message;
 use app\service\admin\Herbs;
@@ -34,14 +34,16 @@ class HerbsController extends Herbs
     public function getHerbsList(Request $request)
     {
         // 从请求中获取页码和限制数量，默认值为 PAGE 和 PAGE_LENGTH
-        $page = $request->get('page', '');
-        $limit = $request->get('limit', '');
-        $search= $request->get('search', '');
+        $page = false;
+        $limit = false;
+
+        $page = $request->get('current', '');
+        $limit = $request->get('pageSize', '');
 
         // 从请求中获取草药书籍名称，如果未提供则为 null
         $query = $request->get('query', '');
         // 调用 getList 方法获取草药列表数据
-        $result = $this->getList($page, $limit, $search,$query);
+        $result = $this->getList($page, $limit, '',$query);
 
         // 构造响应消息数组
         $returnArray = Message::Msg(0, null, null, $result);
@@ -50,17 +52,17 @@ class HerbsController extends Herbs
         return json($returnArray);
     }
 
+
+
     public function detail(Request $request)
     {
         $id = $request->get('id', false);
 
         if($id){
             $row = $this->getHerbsDetail($id);
-            var_dump($row);
-            View::assign('herbs_info', $row);
+            $returnArray = Message::Msg(0, null, null, $row);
+            return json($returnArray);
         }
-//
-        return view('admin/herbs/detail');
     }
 
 

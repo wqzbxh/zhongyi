@@ -76,7 +76,7 @@ App::loadAllConfig(['route']);
 worker_start('$processParam', $configParam);
 
 if (DIRECTORY_SEPARATOR != "/") {
-    Worker::\$logFile = config('service')['log_file'] ?? Worker::\$logFile;
+    Worker::\$logFile = config('server')['log_file'] ?? Worker::\$logFile;
 }
 
 Worker::runAll();

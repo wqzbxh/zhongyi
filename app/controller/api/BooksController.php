@@ -6,7 +6,7 @@
  * Time:  1:08
  */
 
-namespace app\controller\admin;
+namespace app\controller\api;
 
 use app\Message;
 use app\service\admin\Books;
@@ -22,8 +22,11 @@ class BooksController extends Books
 
     public function getBooklist(Request $request)
     {
-        $page = $request->get('page', '');
-        $limit = $request->get('limit', '');
+        $paginationInfo = $request->get('pagination', '');
+
+        $page = $paginationInfo['current'];
+        $limit = $paginationInfo['pageSize'];
+
         $s = $request->get('A');
         $BookServer = new Books();
         // 调用 getList 方法获取草药列表数据

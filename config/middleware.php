@@ -13,8 +13,8 @@
  */
 return [
     // 全局中间件
-//    '' => [
+//    'api' => [
 //        // ... 这里省略其它中间件
-//        app\middleware\StaticFile::class,
+//        app\middleware\AccessControl::class,
 //    ]
 ];

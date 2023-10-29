@@ -6,7 +6,7 @@
  * Time:  17:16
  */
 
-namespace app\controller\admin;
+namespace app\controller\api;
 
 use app\Message;
 use app\service\admin\Prescription;
@@ -34,8 +34,8 @@ class PrescriptionController extends  Prescription
     public function getPrescriptionList(Request $request)
     {
         // 从请求中获取页码和限制数量，默认值为 PAGE 和 PAGE_LENGTH
-        $page = $request->get('page', PAGE);
-        $limit = $request->get('limit', PAGE_LENGTH);
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit', 10);
         $search= $request->get('search', false);
 
         // 从请求中获取草药书籍名称，如果未提供则为 null

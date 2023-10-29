@@ -15,7 +15,7 @@ use support\Model;
 
 class Herbs
 {
-    protected $Model = 'HerbsReturn';
+    protected $Model = 'Herbs';
 
     public function getList($page,$limit,$search,$query)
     {
