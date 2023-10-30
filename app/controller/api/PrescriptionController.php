@@ -49,4 +49,16 @@ class PrescriptionController extends  Prescription
         // 返回 JSON 格式的响应数据
         return json($returnArray);
     }
+
+    public function searchPrescription(Request $request)
+    {
+        $search_data = $request->get('search_common_name', false);
+
+        $result = $this->getPrescriptionByCommionName($search_data);
+        // 构造响应消息数组
+        $returnArray = Message::Msg(0, $result, null, []);
+
+        return json($returnArray);
+        // 返回 JSON 格式的响应数据
+    }
 }

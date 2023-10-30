@@ -21,10 +21,10 @@ Route::group('/api', function () {
     Route::get('/get_prescription_list', [app\controller\api\PrescriptionController::class, 'getPrescriptionList']);
     Route::get('/get_book_list', [app\controller\api\BooksController::class, 'getBooklist']);
 //    获取药材
-
     Route::get('/get_herbs_list', [app\controller\api\HerbsController::class, 'getHerbsList']);
     Route::get('/get_herbs_detail', [app\controller\api\HerbsController::class, 'detail']);
     Route::get('/get_herbs_select_list', [app\controller\api\HerbsController::class, 'getSelectList']);
+    Route::get('/search_prescription', [app\controller\api\PrescriptionController::class, 'searchPrescription']);
     // 匹配所有options路由
     Route::options('[{path:.+}]', function (){
         return response('');
