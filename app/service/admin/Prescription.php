@@ -61,4 +61,29 @@ class Prescription
 
         }
     }
+
+
+    public function getDetailFuncrion(int $prescription_id)
+    {
+        $retrult = [
+            'conditions_retrult' => [],
+            'prescription_sku' => []
+        ];
+//        主治病症
+        $sql_conditions_search = "select symptoms,condition_id from conditions where prescription_id = {$prescription_id};";
+        $conditions_retrult = Db::select($sql_conditions_search);
+//      药物组合
+
+        $sql_prescription_sku = "select h.common_name,d.dosage_number,u.unit_symbol from prescription_sku ps left JOIN units u on u.unit_id = ps.units_id  
+                                left JOIN dosages d on d.dosage_id  = ps.dosages_id  
+                                left JOIN herbs h    on h.herb_id  = ps.herbs_id   where ps.prescription_id = 2";
+        $prescription_sku_retrult = Db::select($sql_prescription_sku);
+
+        $retrult = [
+            'conditions_retrult' =>$conditions_retrult,
+            'prescription_sku' => $prescription_sku_retrult
+        ];
+
+        return $retrult;
+    }
 }
