@@ -71,9 +71,10 @@ class Prescription
         ];
 //        主治病症
         $sql_conditions_search = "select symptoms,condition_id from conditions where prescription_id = {$prescription_id};";
+
         $conditions_retrult = Db::select($sql_conditions_search);
 //      药物组合
-
+        var_dump($prescription_id,$sql_conditions_search);
         $sql_prescription_sku = "select h.common_name,d.dosage_number,u.unit_symbol from prescription_sku ps left JOIN units u on u.unit_id = ps.units_id  
                                 left JOIN dosages d on d.dosage_id  = ps.dosages_id  
                                 left JOIN herbs h    on h.herb_id  = ps.herbs_id   where ps.prescription_id = 2";
@@ -84,6 +85,30 @@ class Prescription
             'prescription_sku' => $prescription_sku_retrult
         ];
 
+        return $retrult;
+    }
+
+
+
+//    根据症状获取草药列表,具体流程:
+//    1 查处某一个病症的主治药方,比如头疼可以用两个药方来治疗了,
+//    2 查到这个两个药方,比如头疼可以用两个药方来治疗了,
+//    3 然后查到药房里面的药,
+//    4 最后组装是数据结构,返回给前端,
+    public function getPrescriptionBySymptomsFuncrion($symptoms)
+    {
+        $retrult = [
+            'conditions_retrult' => [],
+            'prescription_sku' => []
+        ];
+//        主治病症
+         $sql_conditions_search = "SELECT zhongyi.conditions.symptoms, zhongyi.prescription.*
+                                        FROM zhongyi.conditions
+                                        LEFT JOIN zhongyi.prescription ON zhongyi.prescription.prescription_id = zhongyi.conditions.prescription_id
+                                        WHERE zhongyi.conditions.symptoms LIKE '%{$symptoms}%'";
+
+        $retrult['conditions_retrult'] = Db::select($sql_conditions_search);
+        var_dump( $retrult['conditions_retrult'] );
         return $retrult;
     }
 }

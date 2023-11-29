@@ -115,7 +115,6 @@ class Herbs
 
             }
         }
-
         return $result;
     }
 
@@ -231,4 +230,5 @@ class Herbs
 //        var_dump($stringRepresentation);
         return $result;
     }
+
 }

@@ -10,6 +10,7 @@ namespace app\controller\api;
 
 use app\Message;
 use app\service\admin\Prescription;
+use support\Db;
 use support\Request;
 
 class PrescriptionController extends  Prescription
@@ -67,7 +68,6 @@ class PrescriptionController extends  Prescription
     public function getDetail(Request $request)
     {
         $prescription_id = $request->get('prescription_id', false);
-
         $result = $this->getDetailFuncrion($prescription_id);
         // 构造响应消息数组
         $returnArray = Message::Msg(0, $result, null, []);
@@ -75,4 +75,17 @@ class PrescriptionController extends  Prescription
         return json($returnArray);
         // 返回 JSON 格式的响应数据
     }
+
+ public function getPrescriptionBySymptoms(Request $request)
+    {
+        $symptoms = $request->get('symptoms', false);
+        $result = $this->getPrescriptionBySymptomsFuncrion($symptoms);
+        // 构造响应消息数组
+        $returnArray = Message::Msg(0, $result, null, []);
+
+        return json($returnArray);
+        // 返回 JSON 格式的响应数据
+    }
+
+
 }

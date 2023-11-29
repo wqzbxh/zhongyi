@@ -26,6 +26,7 @@ Route::group('/api', function () {
     Route::get('/get_herbs_select_list', [app\controller\api\HerbsController::class, 'getSelectList']);
     Route::get('/search_prescription', [app\controller\api\PrescriptionController::class, 'searchPrescription']);
     Route::get('/get_prescription_detail', [app\controller\api\PrescriptionController::class, 'getDetail']);
+    Route::get('/get_prescription_by_symptoms', [app\controller\api\PrescriptionController::class, 'getPrescriptionBySymptoms']);
     // 匹配所有options路由
     Route::options('[{path:.+}]', function (){
         return response('');
