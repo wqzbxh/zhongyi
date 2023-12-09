@@ -101,14 +101,24 @@ class Prescription
             'conditions_retrult' => [],
             'prescription_sku' => []
         ];
+        if($symptoms){
+
+           $signal_symptoms =  explode(',',str_replace(',',',',trim(str_replace('，',',',$symptoms),',')));
+            // 使用 implode 函数将数组元素连接成字符串，并添加 SQL 条件
+            $sql_conditions = implode(" AND ", array_map(function($symptom) {
+                return "zhongyi.conditions.symptoms LIKE '%{$symptom}%'";
+            }, $signal_symptoms));
+// 最终的 SQL 条件语句
+            $sql_statement = "$sql_conditions ";
+
+        }
 //        主治病症
          $sql_conditions_search = "SELECT zhongyi.conditions.symptoms, zhongyi.prescription.*
                                         FROM zhongyi.conditions
                                         LEFT JOIN zhongyi.prescription ON zhongyi.prescription.prescription_id = zhongyi.conditions.prescription_id
-                                        WHERE zhongyi.conditions.symptoms LIKE '%{$symptoms}%'";
+                                        WHERE  $sql_statement";
 
         $retrult['conditions_retrult'] = Db::select($sql_conditions_search);
-        var_dump( $retrult['conditions_retrult'] );
         return $retrult;
     }
 }
