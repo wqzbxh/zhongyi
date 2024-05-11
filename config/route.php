@@ -18,7 +18,9 @@ use Webman\Route;
 //关闭自动路由
 Route::disableDefaultRoute();
 
-//Route::any('/', [app\controller\admin\HomeController::class, 'index']);
+Route::any('/', function (){
+    return "<h1>Heelo </h1>";
+});
 Route::group('/api', function () {
     Route::get('/get_prescription_list', [app\controller\admin\PrescriptionController::class, 'getPrescriptionList']);
 
