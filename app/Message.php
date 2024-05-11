@@ -40,6 +40,7 @@ class Message
         }
 
         // 添加额外的字段到响应消息数组
+
         foreach ($extraFields as $key => $value) {
             $msgArray[$key] = $value;
         }

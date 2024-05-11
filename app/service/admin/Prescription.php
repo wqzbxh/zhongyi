@@ -9,6 +9,7 @@
 namespace app\service\admin;
 
 use app\service\Common;
+use support\Db;
 
 class Prescription
 {
@@ -22,5 +23,102 @@ class Prescription
         $result =  $Common->getList($page,$limit,$search,$query);
 
         return $result;
+    }
+
+    public function getPrescription($params)
+    {
+//        if(!empty($params[])){
+//            getPrescriptionByCommionName($params);
+//        }
+    }
+
+
+    public function getPrescriptionByCommionName($params)
+    {
+        if(is_array($params)){
+//            计算药物数量，共查询使用
+            $count = count($params);
+
+            $params = array_map(function($value) {
+                return "'" . $value . "'";
+            }, $params);
+
+            $implodedParams = implode(',', $params);
+
+            $params = implode(',',$params);
+            $HerbsModel = new \app\model\Herbs();
+//            查询药物名字（包括重复的ID一起查询，目的不同的书籍存在相同的名字，只要是要查询的名字出现，不论哪本书籍都要进入查询）
+             $sql_search = "select * from prescription where prescription_id in (
+                        SELECT prescription_id
+                        FROM prescription_sku
+                        WHERE  herbs_id IN (SELECT herb_id FROM herbs where  common_name in  ({$params})) 
+                        GROUP BY prescription_id
+                        HAVING COUNT(DISTINCT herbs_id) = {$count});
+                        ";
+            $retrult = Db::select($sql_search);
+            return $retrult;
+        }else{
+
+        }
+    }
+
+
+    public function getDetailFuncrion(int $prescription_id)
+    {
+        $retrult = [
+            'conditions_retrult' => [],
+            'prescription_sku' => []
+        ];
+//        主治病症
+        $sql_conditions_search = "select symptoms,condition_id from conditions where prescription_id = {$prescription_id};";
+
+        $conditions_retrult = Db::select($sql_conditions_search);
+//      药物组合
+        var_dump($prescription_id,$sql_conditions_search);
+        $sql_prescription_sku = "select h.common_name,d.dosage_number,u.unit_symbol from prescription_sku ps left JOIN units u on u.unit_id = ps.units_id  
+                                left JOIN dosages d on d.dosage_id  = ps.dosages_id  
+                                left JOIN herbs h    on h.herb_id  = ps.herbs_id   where ps.prescription_id = 2";
+        $prescription_sku_retrult = Db::select($sql_prescription_sku);
+
+        $retrult = [
+            'conditions_retrult' =>$conditions_retrult,
+            'prescription_sku' => $prescription_sku_retrult
+        ];
+
+        return $retrult;
+    }
+
+
+
+//    根据症状获取草药列表,具体流程:
+//    1 查处某一个病症的主治药方,比如头疼可以用两个药方来治疗了,
+//    2 查到这个两个药方,比如头疼可以用两个药方来治疗了,
+//    3 然后查到药房里面的药,
+//    4 最后组装是数据结构,返回给前端,
+    public function getPrescriptionBySymptomsFuncrion($symptoms)
+    {
+        $retrult = [
+            'conditions_retrult' => [],
+            'prescription_sku' => []
+        ];
+        if($symptoms){
+
+           $signal_symptoms =  explode(',',str_replace(',',',',trim(str_replace('，',',',$symptoms),',')));
+            // 使用 implode 函数将数组元素连接成字符串，并添加 SQL 条件
+            $sql_conditions = implode(" AND ", array_map(function($symptom) {
+                return "zhongyi.conditions.symptoms LIKE '%{$symptom}%'";
+            }, $signal_symptoms));
+// 最终的 SQL 条件语句
+            $sql_statement = "$sql_conditions ";
+
+        }
+//        主治病症
+         $sql_conditions_search = "SELECT zhongyi.conditions.symptoms, zhongyi.prescription.*
+                                        FROM zhongyi.conditions
+                                        LEFT JOIN zhongyi.prescription ON zhongyi.prescription.prescription_id = zhongyi.conditions.prescription_id
+                                        WHERE  $sql_statement";
+
+        $retrult['conditions_retrult'] = Db::select($sql_conditions_search);
+        return $retrult;
     }
 }

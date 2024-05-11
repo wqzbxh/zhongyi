@@ -35,6 +35,8 @@ class Common
      */
     public function getList($page = null, $limit= null, $search= null,$queryWhere=[])
     {
+//       对$queryWhere取交集 ,与模型中允许查询的字段
+        $queryWhere = array_intersect_key($queryWhere,array_flip($this->database_info_object->searchFiled));
         $result = [];
         $total = 0;
         // 构建原生表达式查询
@@ -45,12 +47,11 @@ class Common
             $query->where(function ($query) use ($queryWhere) {
                 foreach ($queryWhere as $key => $item) {
                     if (!empty($item)) {
-                        $query->orWhere($key, '=', $item);
+                        $query->where($key, 'like', "%$item%");
                     }
                 }
             });
         }
-
 // 如果有搜索关键词，添加搜索条件
         if (!empty($search)) {
             $query->where(function ($query) use ($search) {
@@ -68,17 +69,14 @@ class Common
         }else{
             $result = $query->get();
         }
-
-
         // 获取总数
         $totalQuery = "SELECT FOUND_ROWS() AS total";
         $totalResult = Db::select($totalQuery);
         $total = $totalResult[0]->total;
-
         // 构建返回的关联数组
         $returnArray = [
             'data' => $result,
-            'count' => $total,
+            'total' => $total,
         ];
 
         return $returnArray;

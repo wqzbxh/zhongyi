@@ -13,21 +13,31 @@
  */
 
 use Webman\Route;
-
 // 匹配所有options路由
 //关闭自动路由
-Route::disableDefaultRoute();
 
 Route::any('/', function (){
     return "<h1>Heelo </h1>";
 });
 Route::group('/api', function () {
-    Route::get('/get_prescription_list', [app\controller\admin\PrescriptionController::class, 'getPrescriptionList']);
-
+    Route::get('/get_prescription_list', [app\controller\api\PrescriptionController::class, 'getPrescriptionList']);
+    Route::get('/get_book_list', [app\controller\api\BooksController::class, 'getBooklist']);
 //    获取药材
-    Route::get('/get_herbs_list', [app\controller\admin\HerbsController::class, 'getHerbsList']);
-    Route::get('/get_herbs_select_list', [app\controller\admin\HerbsController::class, 'getSelectList']);
+    Route::get('/get_herbs_list', [app\controller\api\HerbsController::class, 'getHerbsList']);
+    Route::get('/get_herbs_detail', [app\controller\api\HerbsController::class, 'detail']);
+    Route::get('/get_herbs_select_list', [app\controller\api\HerbsController::class, 'getSelectList']);
+    Route::get('/search_prescription', [app\controller\api\PrescriptionController::class, 'searchPrescription']);
+    Route::get('/get_prescription_detail', [app\controller\api\PrescriptionController::class, 'getDetail']);
+    Route::get('/get_prescription_by_symptoms', [app\controller\api\PrescriptionController::class, 'getPrescriptionBySymptoms']);
+    Route::get('/disease_inquiry', [app\controller\api\PrescriptionController::class, 'diseaseInquiry']);
+
+    // 匹配所有options路由
+    Route::options('[{path:.+}]', function (){
+        return response('');
+    });
 })->middleware([
     app\middleware\AccessControl::class,
 ]);
 
+
+Route::disableDefaultRoute();

@@ -11,7 +11,7 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
+//var_dump(phpinfo());
 return [
     // 默认数据库
     'default' => 'mysql',
@@ -20,16 +20,16 @@ return [
     'connections' => [
         'mysql' => [
             'driver'      => 'mysql',
-            'host'        => '1.117.159.188',
-            'port'        => 3306,
-            'database'    => 'zhongyi',
-            'username'    => 'wqzbxh',
-            'password'    => 'wqzbxh@2020$',
-//            'host'        => '127.0.0.1',
+//            'host'        => '1.117.159.188',
 //            'port'        => 3306,
 //            'database'    => 'zhongyi',
-//            'username'    => 'root',
-//            'password'    => 'root',
+//            'username'    => 'wqzbxh',
+//            'password'    => 'wqzbxh@2020$',
+            'host'        => '127.0.0.1',
+            'port'        => 3306,
+            'database'    => 'zhongyi',
+            'username'    => 'root',
+            'password'    => 'jJcA#J5iy4@6RweF',
             'unix_socket' => '',
             'charset'     => 'utf8',
             'collation'   => 'utf8_unicode_ci',
