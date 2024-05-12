@@ -29,7 +29,7 @@ Route::group('/api', function () {
     Route::get('/search_prescription', [app\controller\api\PrescriptionController::class, 'searchPrescription']);
     Route::get('/get_prescription_detail', [app\controller\api\PrescriptionController::class, 'getDetail']);
     Route::get('/get_prescription_by_symptoms', [app\controller\api\PrescriptionController::class, 'getPrescriptionBySymptoms']);
-    Route::get('/disease_inquiry', [app\controller\api\PrescriptionController::class, 'diseaseInquiry']);
+//    Route::get('/disease_inquiry', [app\controller\api\PrescriptionController::class, 'diseaseInquiry']);
 
     // 匹配所有options路由
     Route::options('[{path:.+}]', function (){
